@@ -95,6 +95,13 @@ module FFMPEG
       Transcoder.new(self, output_file, options.merge(:screenshot => true), transcoder_options).run &block
     end
 
+    def screenshot2(output_file, frame_number)
+      time_position = 1.0 / frame_rate * frame_number + 0.001
+      command = "#{FFMPEG.ffmpeg_binary} -y -i #{Shellwords.escape(self.path)} -vframes 1 -ss #{time_position} #{Shellwords.escape(output_file)}"
+      Open3.popen3(command) do |stdin, stdout, stderr|
+      end
+    end
+
     def frames_total
       (@duration * frame_rate).to_i + 1
     end
