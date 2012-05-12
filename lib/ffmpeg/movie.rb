@@ -94,6 +94,10 @@ module FFMPEG
     def screenshot(output_file, options = EncodingOptions.new, transcoder_options = {}, &block)
       Transcoder.new(self, output_file, options.merge(:screenshot => true), transcoder_options).run &block
     end
+
+    def frames_total
+      (@duration * frame_rate).to_i + 1
+    end
     
     protected
     def aspect_from_dar
